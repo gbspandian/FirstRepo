@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - All products{% endblock %}
+
+{% block content %} 
+{% load static %}
+{% load custom_tags %}
+
+<!-- Generate a 100x100 cropped thumbnail -->
+<table style="position: center;">
+    <tr>
+        <td><h3 style="text-align: left;">Ecommerce Home:</h3></td>
+    </tr>  
+    {% for i in messages %}
+    <h2 style="color: red;">{{i}}</h2>
+    {% endfor %}   
+    <ul>
+        <table>            
+            <tr>
+        
+        {% for product in productdetails %}
+                <td style="padding: 5%; width:150px; height:150px">
+                <a href="productdetail?productid={{ product.id }}" >
+                    <img src="{% static product.itemimage|stringformat:'s'|get_last_path_value %}" style="width: 100px; height: 100px; object-fit:contain;" alt="" />
+                <div>{{ product.itemname }}</div>
+                <div>Rs.{{ product.rate }}</div></a>
+                <div class="quantity-box">
+                    <button class="qty-btn" onclick="changeQty(-1, 'quantity_{{ product.id }}')">-</button>
+                    <input type="number" id="quantity_{{ product.id }}" class="qty-input" min="1" max="100" value="1">
+                    <button class="qty-btn" onclick="changeQty(1, 'quantity_{{ product.id }}')">+</button>
+                </div>    
+                </td> 
+            {% if forloop.counter|divisibleby:4 and not forloop.last %}                
+                </tr><tr>
+            {% elif forloop.last %}
+            </tr>    
+            {% endif %}
+        {% endfor %}
+        </table>
+    </ul>
+    <!-- 2. Pagination controls Navigation -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if productdetails.has_previous %}
+                <a href="?page=1">&laquo; First</a>
+                <a href="?page={{ productdetails.previous_page_number }}">Previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ productdetails.number }} of {{ productdetails.paginator.num_pages }}.
+            </span>
+
+            {% if productdetails.has_next %}
+                <a href="?page={{ productdetails.next_page_number }}">Next</a>
+                <a href="?page={{ productdetails.paginator.num_pages }}">Last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+    
+ </table>
+{% endblock %}

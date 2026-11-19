@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Ecommerce Registration Success page{% endblock %}
+
+{% block content %}
+
+       <form action="login" method="get">
+             {% csrf_token %}
+             <table style="position: center;">
+                <tr>
+                    <td colspan="2"><h3 style="text-align: left;">Ecommerce Registration Success:</h3></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" value="Go to Login" /></td>
+                </tr>
+             </table>
+        </form>
+{% endblock %}

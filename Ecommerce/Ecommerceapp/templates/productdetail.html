@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}Product Details - {{ productdetails.itemname }} {% endblock %}
+
+{% block content %} 
+{% load static %}
+{% load custom_tags %}
+
+<!-- Generate a 100x100 cropped thumbnail -->
+<table style="position: center;">
+    <tr>
+        <td><h3 style="text-align: left;">{{ productdetails.producttype }}  {{ productdetails.itemname }}</h3></td>
+    </tr>  
+    {% for i in messages %}
+    <h2 style="color: red;">{{i}}</h2>
+    {% endfor %}   
+    <ul>
+        <table>            
+            <tr>
+                <td width="10%" valign="top">
+                    <div><img id="subimg-0" onclick="changeImg('subimg-0')" src="{% static productdetails.itemimage|stringformat:'s'|get_last_path_value %}" style="width: 50px; height: 50px; object-fit:contain;cursor: pointer;" alt="" /></div>
+                    {% for img in productimages %}
+                    <div><img id="subimg-{{ forloop.counter }}" onclick="changeImg('subimg-{{ forloop.counter }}')" src="{% static img.itemimages|stringformat:'s'|get_last_path_value %}" style="width: 50px; height: 50px; object-fit:contain;cursor: pointer;" alt="" /></div>
+                    {% endfor %}                    
+                </td>
+                <td width="35%" valign="top">
+                    <img id="mainimg" src="{% static productdetails.itemimage|stringformat:'s'|get_last_path_value %}" style="width: 500px; height: 500px; object-fit:contain;" alt="" />
+                </td>
+                <td width="40%" valign="top">
+                    <div><b>{{ productdetails.summary }}</b></div>
+                    </br>
+                    <div><b style="font-size:larger;">₹{{ productdetails.rate }}</b></div>
+                    </br>
+                    <div class="quantity-box1">
+                        <button class="qty-btn1" onclick="changeQty(-1, 'quantity_{{ product.id }}')">-</button>
+                        <input type="number" id="quantity_{{ product.id }}" class="qty-input1" min="1" max="100" value="1">
+                        <button class="qty-btn1" onclick="changeQty(1, 'quantity_{{ product.id }}')">+</button>
+                    </div>
+                    </br></br>
+                    <div class="button-group">
+                        <button type="button" class="btn btn-primary buy-now">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        <span>Add to Cart</span>
+                        </button>
+                        
+                        <button type="button" class="btn btn-primary buy-now">
+                        <span>Buy Now</span>
+                        </button>
+                    </div>
+                    <div>
+                        <h1>About this item:</h1>
+                        {{ productdetails.description }}
+                    </div>
+                </td>
+                <td width="10%"></td> 
+            </tr>  
+        </table>
+    </ul> 
+ </table>
+{% endblock %}

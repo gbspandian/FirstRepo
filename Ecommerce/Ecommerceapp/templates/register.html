@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Ecommerce Registration page{% endblock %}
+
+{% block content %}
+
+       <form action="regsuccess" method="post">
+             {% csrf_token %}
+             <table style="position: center;">
+                <tr>
+                    <td colspan="2"><h3 style="text-align: left;">Ecommerce Registration:</h3></td>
+                </tr>
+                <tr>
+                    <td><label>Your name:</label></td>
+                    <td><input type="text" name="name" required /></td>
+                </tr>
+                <tr>
+                    <td><label>Age:</label></td>
+                    <td><input type="number" name="age" required /></td>
+                </tr>
+                 <tr>
+                    <td><label>Gender:</label></td>
+                    <td>
+                        <input type="radio" name="gender" value="male" required />Male 
+                        <input type="radio" name="gender" value="female" required />Female 
+                    </td>
+                </tr>
+                 <tr>
+                    <td><label>Email ID:</label></td>
+                    <td><input type="text" name="emailID" required /></td>
+                </tr>
+                 <tr>
+                    <td><label>Mobile:</label></td>
+                    <td><input type="number" name="phone" required /></td>
+                </tr>
+                 
+                 <tr>
+                    <td><label>User name:</label></td>
+                    <td><input type="text" name="username" required /></td>
+                </tr>
+                 <tr>
+                    <td><label>Enter Password:</label></td>
+                    <td><input type="password" name="password" required /></td>
+                </tr>
+                <tr>
+                    <td><label>Confirm Password:</label></td>
+                    <td><input type="password" name="confirmpassword" required /></td>
+                </tr>
+                    {% for i in messages %}
+                    <h2 style="color: red;">{{i}}</h2>
+                    {% endfor %}  
+                <tr>
+                    <td></td>
+                    <td><input type="submit" value="Register" />
+                    <input type="hidden" name="adminuser" value="no" />
+                    <input type="hidden" name="userphoto" value="" />
+                    </td>
+                </tr>
+             </table>
+        </form>
+{% endblock %}

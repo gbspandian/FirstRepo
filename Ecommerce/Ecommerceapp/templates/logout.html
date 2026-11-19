@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - All products{% endblock %}
+
+{% block content %} 
+<table style="position: center;">
+    <tr>
+        <td colspan="2"><h3 style="text-align: left;">Ecommerce Home:</h3></td>
+    </tr>
+                    {% for i in messages %}
+                    <h2 style="color: red;">{{i}}</h2>
+                    {% endfor %}   
+                    
+ </table>
+{% endblock %}

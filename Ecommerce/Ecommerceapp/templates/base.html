@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pandiyan Ecommerce website</title>
+    <style>
+        .quantity-box {
+            display: inline-flex;
+            align-items: center;
+            border: .5px solid #ccc;
+            border-radius: 2px;
+            overflow: hidden;
+            font-family: sans-serif;
+        }
+
+        .qty-btn {
+            background-color: #f1f1f1;
+            border: none;
+            color: #333;
+            padding: 4px 7px;
+            font-size: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .qty-btn:hover {
+            background-color: #ddd;
+        }
+
+        .qty-input {
+            width: 25px;
+            height: 17px;
+            text-align: center;
+            border: none;
+            border-left: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            font-size: 8px;
+            outline: none;
+        }
+
+        /* Hides the default browser arrows for number inputs */
+        .qty-input::-webkit-outer-spin-button,
+        .qty-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .qty-input {
+            -moz-appearance: textfield;
+        }
+        .quantity-box1 {
+            display: inline-flex;
+            align-items: center;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            overflow: hidden;
+            font-family: sans-serif;
+        }
+
+        .qty-btn1 {
+            background-color: #f1f1f1;
+            border: none;
+            color: #333;
+            padding: 8px 14px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .qty-btn1:hover {
+            background-color: #ddd;
+        }
+
+        .qty-input1 {
+            width: 50px;
+            height: 35px;
+            text-align: center;
+            border: none;
+            border-left: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+            font-size: 16px;
+            outline: none;
+        }
+
+        /* Hides the default browser arrows for number inputs */
+        .qty-input1::-webkit-outer-spin-button,
+        .qty-input1::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .qty-input1 {
+            -moz-appearance: textfield;
+        }
+
+        /* --- E-commerce Action Buttons Layout --- */
+        .button-group {
+            display: flex;
+            gap: 12px;
+            width: 100%;
+        }
+
+        .btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            height: 52px;
+            padding: 0 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: transform 0.1s ease, background-color var(--transition-speed), border-color var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
+        /* Standard click micromanagement */
+       .btn:active {
+            transform: scale(0.98);
+        }
+
+        /* --- Add to Cart (Secondary Variant) --- */
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--secondary-color);
+            border: 2px solid var(--secondary-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--secondary-color);
+            color: var(--text-light);
+            box-shadow: 0 4px 12px rgba(47, 53, 66, 0.15);
+        }
+
+        .btn-icon {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        /* --- Buy Now (Primary Variant) --- */
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            box-shadow: 0 4px 12px rgba(255, 71, 87, 0.2);
+        }
+
+        .btn-primary:hover {
+            background-color: #ee3848; /* Slightly deeper tone */
+            box-shadow: 0 6px 16px rgba(255, 71, 87, 0.3);
+        }
+
+        /* --- Responsive Adjustments --- */
+        @media (max-width: 480px) {
+            .button-group {
+                flex-direction: column; /* Stack vertically on small phone displays */
+            }
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Persistent Header Section -->
+    <header style="background: #f4f4f4; padding: 10px;">
+        <h1 style="text-align: left;">Ecommerce site</h1>   
+        <table style="width: 100%;">
+            <tr>
+                <td style="text-align: left;">
+                    <nav>
+                        <a href="home">Home</a> | 
+                        <a href="about">About</a>            
+                    </nav>
+                </td>
+                <td style="text-align: right;">
+                    <nav >
+                        {% if request.session.is_logged_in %}
+                            Welcome back, {{ request.session.name }}! | 
+                            <a href="logout">Logout</a>
+                        {% else %}
+                            <a href="login">Login</a>
+                            <a href="register">Register</a>
+                        {% endif %}
+                        
+                    </nav>
+                </td>
+            </tr>
+        </table>  
+        <script>
+            function changeQty(amount,btnid) {
+                const qtyInput = document.getElementById(btnid);
+                let currentVal = parseInt(qtyInput.value) || 1;
+                let newVal = currentVal + amount;
+                
+                // Respect the min and max limits
+                const min = parseInt(qtyInput.min) || 1;
+                const max = parseInt(qtyInput.max) || 100;
+
+                if (newVal >= min && newVal <= max) {
+                    qtyInput.value = newVal;
+                }
+            }
+
+            function changeImg(imgid) {
+                img_id = document.getElementById('mainimg');
+                imgname = document.getElementById(imgid).getAttribute("src");
+                img_id.setAttribute('src', imgname);
+            }
+        </script>
+    </header>
+
+    <!-- Dynamic Content Section -->
+    <main style="padding: 20px; min-height: 400px;">
+        {% block content %}
+        <!-- Child templates will inject their content here -->
+        {% endblock %}
+    </main>
+
+    <!-- Persistent Footer Section -->
+    <footer style="background: #333; color: white; padding: 10px; text-align: center;">
+        <p>&copy; 2026 Pandiyan Ecommerce App. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>
